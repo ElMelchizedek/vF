@@ -230,7 +230,7 @@ int main (int argc, char *argv[])
             "file name",
             "option"
     */
-    printf("Verler 0.1\n");
+    printf("Verler 1.0\n");
     if (argc < 2)
     {
         errorHandle(ERROR_NO_FILE);
