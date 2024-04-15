@@ -162,7 +162,7 @@ void interpreter(uint8_t *array, char *contents)
                 array[pointer]--;
                 break;
             case '.':
-                printf("%c\n", array[pointer]);
+                printf("%c", array[pointer]);
                 dPrint("int: %d\n", (int) array[pointer]);
                 break;
             case ',':
@@ -171,38 +171,49 @@ void interpreter(uint8_t *array, char *contents)
                 array[pointer] = (uint8_t) x;
                 break;
             case '[':
-                startLoc = i;
-                endLoc = -1;
-                int j = i;
-                while (j != contentsSize)
+                if (array[pointer] == 0)
                 {
-                    if (contents[j] == ']')
+                    int bracketNum = 0;
+                    int j = i;
+                    for (j; j < contentsSize; j++)
+                    dPrint("bracketNum: %d\n", bracketNum);
                     {
-                        endLoc = j;
+                        if (contents[j] == '[')
+                        {
+                            bracketNum++;
+                        } else if (contents[j] == ']') {
+                            bracketNum--;
+                        }
+                        if (bracketNum == 0)
+                        {
+                            i = j;
+                            break;
+                        }
                     }
-                    j++;
-                }
-                if (endLoc == -1)
-                {
-                    errorHandle(ERROR_NO_END_LOOP);
-                } else {
-                    if (array[pointer] == 0)
-                    {
-                        i = endLoc;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
+                } 
+                break;
             case ']':
                 if (array[pointer] != 0)
                 {
-                    i = startLoc;
-                    break;
-                } else {
-                    break;
+                    int bracketNum = 0;
+                    int l = i;
+                    for (l; l >= 0; l--)
+                    {
+                        dPrint("bracketNum: %d\n", bracketNum);
+                        if (contents[l] == '[')
+                        {
+                            bracketNum--;
+                        } else if (contents[l] == ']') {
+                            bracketNum++;
+                        }
+                        if (bracketNum == 0)
+                        {
+                            i = l;
+                            break;
+                        }
+                    }
                 }
+                break;
             default:
                 break;
         }
@@ -239,7 +250,7 @@ int main (int argc, char *argv[])
         uint8_t *array = arrayCreator();
         interpreter(array, contents);
     }
-
+    printf("\n");
     // END
     return 0;
 }
