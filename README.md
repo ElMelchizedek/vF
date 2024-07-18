@@ -1,3 +1,3 @@
-# verlF
+# vF
 ### Instructions:
-./verlF [SOURCE_PATH] (--debug)
+./vF [SOURCE_PATH] (--debug)
